@@ -1,0 +1,139 @@
+Create Login and password:
+
+Create login etl with password = 'etl';
+
+Create a Username for the Login Name:
+
+Create User Username For Login Username;
+
+Grant all permission to the user:
+
+Grant all To etl with grant option;
+
+Create user and assign role:
+exec sp_adduser 'biuser1','biuser1','db_datareader'
+
+Modify role for a exisiting user:
+exec sp_addrolemember db_datareader, username;
+
+Bulk insert from csv file:
+BULK INSERT dbo.movies_metadata
+FROM 'C:\Users\Public\output_movies_metadata.csv'
+WITH
+(
+FIELDTERMINATOR = '","',
+ROWTERMINATOR = '"\n"',
+firstrow = 2
+)
+
+add double quote to csv column using python:
+import csv
+outputfile = open('C:\\Users\Public\output_credit.csv', 'w', newline='',encoding="utf8")
+with open('C:\\Users\Public\credits.csv',mode='r',encoding="utf8") as csv_file:
+	data = csv.reader(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+	credits_writer = csv.writer(outputfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+
+	for row in data:
+		print(', '.join(row))
+		credits_writer.writerow(row)
+
+Modify column datatype:
+alter table movies_metadata
+alter column adult varchar(10);
+
+
+CREATE TABLE [dbo].[movies_metadata](
+	[adult] [varchar](10) NULL,
+	[belongs_to_collection] [text] NULL,
+	[genres] [varchar](1024) NULL,
+	[homepage] [varchar](200) NULL,
+	[id] [bigint] NULL,
+	[imdb_id] [char](50) NULL,
+	[original_language] [char](10) NULL,
+	[original_title] [varchar](1024) NULL,
+	[overview] [text] NULL,
+	[popularity] [decimal](4, 4) NULL,
+	[poster_path] [varchar](200) NULL,
+	[production_companies] [varchar](2048) NULL,
+	[production_countries] [varchar](1024) NULL,
+	[release_date] [date] NULL,
+	[revenue] [bigint] NULL,
+	[runtime] [int] NULL,
+	[spoken_languages] [varchar](1024) NULL,
+	[movie_status] [char](20) NULL,
+	[tagline] [text] NULL,
+	[title] [varchar](100) NULL,
+	[video] [bit] NULL,
+	[vote_average] [float] NULL,
+	[vote_count] [int] NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+Check Cardinality: (data exploration) - 
+1. check table count for each table
+
+credits   45475
+keywords  46419
+links     45843
+links_small 9125
+movies_metadata 545535
+ratings 26024289    
+ratings_small  100004
+
+2. check distinct count query: select COUNT(*) from (select distinct userId, movieId,rating,ratings_timestamp from ratings) a;
+
+credits  45438
+keywords  45432
+links   45843
+links_small   9125
+movies_metadata  79414
+ratings     26024289
+ratings_small   100004
+
+3. understand structure of table - check type of column and data
+4. check cardinality of each column
+
+sublime:
+1.control + a to select all text
+2. control + shift + p - helper
+3. Json --> set Json reindent
+4. control + shift + P --> syntax
+
+script to drop table from Database:
+drop table credits;
+drop table keywords;
+drop table links;
+drop table links_small;
+drop table movies_metadata;
+drop table ratings;
+drop table ratings_small;
+
+Check Cardinality: (data exploration) - 
+1. check table count for each table
+dbo.olist_customers_dataset 99441
+dbo.olist_geolocation_dataset  1000163
+dbo.olist_order_items_dataset  112649
+dbo.olist_order_payments_dataset 103885
+dbo.olist_order_reviews_dataset 100000
+dbo.olist_orders_dataset 99441
+dbo.olist_products_dataset  32950
+dbo.olist_sellers_dataset  3095
+dbo.product_category_name_translation  71
+
+
+2. check distinct count query: select COUNT(*) from (select distinct userId, movieId,rating,ratings_timestamp from ratings) a;
+
+dbo.olist_customers_dataset 99441
+dbo.olist_geolocation_dataset   738333
+dbo.olist_order_items_dataset  112649
+dbo.olist_order_payments_dataset 103885
+dbo.olist_order_reviews_dataset 100000
+dbo.olist_orders_dataset 99441
+dbo.olist_products_dataset   32950
+dbo.olist_sellers_dataset  3095
+dbo.product_category_name_translation  71
+
+3. understand structure of table - check type of column and data
+4. check cardinality of each column
+
+C:\Users\tanma\Documents\GitHub\BIPractice
